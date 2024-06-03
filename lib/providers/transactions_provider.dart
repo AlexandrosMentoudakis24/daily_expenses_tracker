@@ -5,7 +5,93 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsNotifier extends ChangeNotifier {
-  TransactionsNotifier() : existingTransactions = [];
+  TransactionsNotifier()
+      : existingTransactions = [
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.local_grocery_store,
+            transactionInfo: "Groceries",
+            transactionType: TransactionType.expense,
+            amount: 100.55,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.wallet,
+            transactionInfo: "Salary",
+            transactionType: TransactionType.income,
+            amount: 200,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.local_grocery_store,
+            transactionInfo: "Groceries",
+            transactionType: TransactionType.expense,
+            amount: 100.55,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.wallet,
+            transactionInfo: "Salary",
+            transactionType: TransactionType.income,
+            amount: 200,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.local_grocery_store,
+            transactionInfo: "Groceries",
+            transactionType: TransactionType.expense,
+            amount: 100.55,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.wallet,
+            transactionInfo: "Salary",
+            transactionType: TransactionType.income,
+            amount: 200,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.local_grocery_store,
+            transactionInfo: "Groceries",
+            transactionType: TransactionType.expense,
+            amount: 100.55,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.wallet,
+            transactionInfo: "Salary",
+            transactionType: TransactionType.income,
+            amount: 200,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.local_grocery_store,
+            transactionInfo: "Groceries",
+            transactionType: TransactionType.expense,
+            amount: 100.55,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.wallet,
+            transactionInfo: "Salary",
+            transactionType: TransactionType.income,
+            amount: 200,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.local_grocery_store,
+            transactionInfo: "Groceries",
+            transactionType: TransactionType.expense,
+            amount: 100.55,
+          ),
+          Transaction(
+            transactionId: '',
+            transactionIcon: Icons.wallet,
+            transactionInfo: "Salary",
+            transactionType: TransactionType.income,
+            amount: 200,
+          ),
+        ];
 
   List<Transaction> existingTransactions;
 

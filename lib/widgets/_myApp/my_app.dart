@@ -1,19 +1,29 @@
-import 'package:daily_expense_tracker/models/transaction.dart';
 import "package:flutter/material.dart";
 
-import 'package:daily_expense_tracker/screens/home_screen/home_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:daily_expense_tracker/widgets/global_widgets/bottom_nav_bar_row/bottom_nav_bar_row.dart';
+import 'package:daily_expense_tracker/providers/bottom_nav_bar_provider.dart';
 import 'package:daily_expense_tracker/colors/custom_colors.dart';
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final bottomNavBarProv = ref.watch(bottomNavBarProvider);
+
+    final currentDisplayedScreen = bottomNavBarProv.currentDisplayedScreen;
+
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    const bottomNavBarHeight = 70.0;
+
     return MaterialApp(
       title: "Daily Expense Tracker",
       debugShowCheckedModeBanner: false,
@@ -39,7 +49,18 @@ class _MyAppState extends State<MyApp> {
         ),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: Column(
+        children: [
+          SizedBox(
+            height: screenHeight - bottomNavBarHeight,
+            child: currentDisplayedScreen,
+          ),
+          const SizedBox(
+            height: bottomNavBarHeight,
+            child: BottomNavBarRow(),
+          )
+        ],
+      ),
     );
   }
 }

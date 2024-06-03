@@ -68,7 +68,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
