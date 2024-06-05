@@ -1,4 +1,4 @@
-import 'package:daily_expense_tracker/modals/modal_contents.dart/not_enough_balance_modal_content.dart';
+import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/not_enough_balance_modal_content.dart';
 import 'package:daily_expense_tracker/providers/new_transaction_provider.dart';
 import 'package:daily_expense_tracker/providers/transactions_provider.dart';
 import 'package:daily_expense_tracker/providers/user_account_provider.dart';
@@ -30,28 +30,62 @@ class _NewTransactionCompleteButtonState
     });
 
     try {
+      final loggedUserAccountProvNoti =
+          ref.read(loggedUserAccountProvider.notifier);
+
+      final balance = loggedUserAccountProvNoti.loggedAccount.balance;
+
       final newTransactionProvNoti = ref.read(newTransactionProvider.notifier);
 
-      final newTransaction = newTransactionProvNoti.newTransaction;
+      if (balance - newTransactionProvNoti.newTransaction.amount < 0.0) {
+        throw ("Insufficient account balance!");
+      }
 
-      ref
-          .read(loggedUserAccountProvider.notifier)
-          .completeNewTransction(newTransaction);
+      final newTransaction = await newTransactionProvNoti.saveTransactionToDB();
+
+      if (newTransaction == null) throw Error();
 
       ref.read(transactionsProvider.notifier).addNewTransaction(newTransaction);
+
+      loggedUserAccountProvNoti.completeNewTransaction(newTransaction);
 
       widget.onFormSubmitHandler();
 
       newTransactionProvNoti.clearNewTransaction();
+
+      if (!mounted) return;
+
+      Navigator.of(context).pop();
     } catch (err) {
       setState(() {
         _isLoading = false;
       });
 
-      await showAdaptiveDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (context) => const NotEnoughBalanceModalContent(),
+      if (!mounted) return;
+
+      if (err == "Insufficient account balance!") {
+        await showAdaptiveDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (context) => const NotEnoughBalanceModalContent(),
+        );
+
+        return;
+      }
+
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).clearSnackBars();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Failed to save transaction!",
+          ),
+          duration: Duration(
+            milliseconds: 3000,
+          ),
+        ),
       );
     } finally {
       if (mounted) {

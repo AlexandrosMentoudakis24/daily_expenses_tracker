@@ -1,15 +1,17 @@
-import 'package:daily_expense_tracker/models/transaction.dart';
+import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
 
-import 'package:flutter/material.dart';
+import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
+import 'package:daily_expense_tracker/models/transaction.dart';
 
 class NewTransactionNotifier extends ChangeNotifier {
   NewTransactionNotifier()
       : newTransaction = Transaction(
           transactionId: "",
-          transactionIcon: Icons.local_grocery_store,
           transactionInfo: "",
+          transactionCategory: TransactionCategory.superMarket,
           transactionType: TransactionType.income,
           amount: 0.0,
         );
@@ -19,8 +21,8 @@ class NewTransactionNotifier extends ChangeNotifier {
   void clearNewTransaction() {
     newTransaction = Transaction(
       transactionId: "",
-      transactionIcon: Icons.donut_large,
       transactionInfo: "",
+      transactionCategory: TransactionCategory.superMarket,
       transactionType: TransactionType.income,
       amount: 0.0,
     );
@@ -28,14 +30,14 @@ class NewTransactionNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setNewTransactionIcon(IconData newIcon) {
-    newTransaction.transactionIcon = newIcon;
+  void setNewTransactionInfo(String newTransactionInfo) {
+    newTransaction.transactionInfo = newTransactionInfo;
 
     notifyListeners();
   }
 
-  void setNewTransactionInfo(String newTransactionInfo) {
-    newTransaction.transactionInfo = newTransactionInfo;
+  void setNewTransactionCategory(TransactionCategory newTransactionCategory) {
+    newTransaction.transactionCategory = newTransactionCategory;
 
     notifyListeners();
   }
@@ -50,6 +52,50 @@ class NewTransactionNotifier extends ChangeNotifier {
     newTransaction.amount = newAmmount;
 
     notifyListeners();
+  }
+
+  Future<Transaction?> saveTransactionToDB() async {
+    final transactionInfo = newTransaction.transactionInfo;
+    final transactionCategory = newTransaction.transactionCategory.name;
+    final transactionType = newTransaction.transactionType.name;
+    final amount = newTransaction.amount;
+
+    if (transactionInfo.isEmpty || amount <= 0.0) return null;
+
+    final dio = Dio();
+
+    final formData = {
+      "transactionInfo": transactionInfo,
+      "transactionCategory": transactionCategory,
+      "transactionType": transactionType,
+      "amount": amount,
+    };
+
+    try {
+      final response = await dio.post(
+        "http://192.168.1.199:8080/transactions/saveTransaction",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+          },
+        ),
+        data: formData,
+      );
+
+      if (response.statusCode != 201) {
+        return null;
+      }
+
+      final responseData = response.data;
+
+      final newTransaction = Transaction.formatFromMap(
+        responseData["transaction"],
+      );
+
+      return newTransaction;
+    } catch (err) {
+      throw "Failed to save transaction!";
+    }
   }
 }
 

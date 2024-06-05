@@ -20,8 +20,8 @@ class _TransactionFiltersContainerState
     final activeTransactionFilter = ref.watch(transactionFiltersProvider);
 
     return Container(
-      height: 70,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      height: 60,
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(90),
         color: Colors.white,
@@ -60,11 +60,11 @@ class _TransactionFiltersContainerState
                           enumValue.name.toUpperCase(),
                           textScaler: const TextScaler.linear(1.2),
                           style: TextStyle(
-                            letterSpacing: 1.2,
+                            letterSpacing: 2,
                             color: isActive
                                 ? Colors.white
                                 : CustomColors.primaryBgColor,
-                            fontSize: 19,
+                            fontSize: 17,
                           ),
                         ),
                       ),

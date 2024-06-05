@@ -80,9 +80,9 @@ class _NewCategoryIconModalContentState
             padding: const EdgeInsets.only(top: 30),
             height: availableContentHeight - 30,
             child: ListView.builder(
-              itemCount: TransactionCategories.values.length,
+              itemCount: TransactionCategory.values.length,
               itemBuilder: (context, index) {
-                final currentCategory = TransactionCategories.values[index];
+                final currentCategory = TransactionCategory.values[index];
                 final currentCategoryIcon =
                     transactionCategoryIcons[currentCategory];
 
@@ -90,10 +90,7 @@ class _NewCategoryIconModalContentState
 
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop({
-                      "title": formattedString,
-                      "icon": currentCategoryIcon,
-                    });
+                    Navigator.of(context).pop(currentCategory);
                   },
                   child: SingleCategoryIconItem(
                     itemHeight: 70,

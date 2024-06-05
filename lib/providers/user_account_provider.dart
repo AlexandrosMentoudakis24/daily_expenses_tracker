@@ -33,7 +33,7 @@ class LoggedUserAccountNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void completeNewTransction(Transaction newTransaction) {
+  void completeNewTransaction(Transaction newTransaction) {
     final transactionAmmount = newTransaction.amount;
 
     try {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum TransactionCategories {
+enum TransactionCategory {
   superMarket,
   entertainment,
   fastFood,
@@ -9,9 +9,9 @@ enum TransactionCategories {
 }
 
 const transactionCategoryIcons = {
-  TransactionCategories.superMarket: Icons.local_grocery_store_outlined,
-  TransactionCategories.entertainment: Icons.local_drink,
-  TransactionCategories.fastFood: Icons.fastfood,
-  TransactionCategories.cinema: Icons.tv,
-  TransactionCategories.salary: Icons.account_balance_wallet,
+  TransactionCategory.superMarket: Icons.local_grocery_store_outlined,
+  TransactionCategory.entertainment: Icons.local_drink,
+  TransactionCategory.fastFood: Icons.fastfood,
+  TransactionCategory.cinema: Icons.tv,
+  TransactionCategory.salary: Icons.account_balance_wallet,
 };
