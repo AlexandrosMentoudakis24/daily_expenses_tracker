@@ -28,7 +28,7 @@ class TransactionsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSingleTransaction(String transactionId) {
+  void deleteSingleTransaction(String transactionId) {
     existingTransactions = [
       ...existingTransactions.where(
         (t) => t.transactionId != transactionId,
