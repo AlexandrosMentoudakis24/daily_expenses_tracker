@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/utils/constants/web_server_uri_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,7 +74,7 @@ class NewTransactionNotifier extends ChangeNotifier {
 
     try {
       final response = await dio.post(
-        "http://192.168.1.199:8080/transactions/saveTransaction",
+        "${WebServer.serverUri}/transactions/saveTransaction",
         options: Options(
           headers: {
             "Content-Type": "application/json",

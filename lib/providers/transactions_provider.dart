@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/utils/constants/web_server_uri_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
     try {
       final response = await dio.get(
-        "http://192.168.1.199:8080/transactions",
+        "${WebServer.serverUri}/transactions",
         options: Options(
           headers: {
             "Content-Type": "application/json",

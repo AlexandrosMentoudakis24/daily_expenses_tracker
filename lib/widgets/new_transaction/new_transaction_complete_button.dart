@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/models/transaction.dart';
 import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/not_enough_balance_modal_content.dart';
 import 'package:daily_expense_tracker/providers/new_transaction_provider.dart';
 import 'package:daily_expense_tracker/providers/transactions_provider.dart';
@@ -37,7 +38,12 @@ class _NewTransactionCompleteButtonState
 
       final newTransactionProvNoti = ref.read(newTransactionProvider.notifier);
 
-      if (balance - newTransactionProvNoti.newTransaction.amount < 0.0) {
+      final transactionType =
+          newTransactionProvNoti.newTransaction.transactionType;
+      final transactionAmount = newTransactionProvNoti.newTransaction.amount;
+
+      if (transactionType == TransactionType.expense &&
+          balance - transactionAmount < 0.0) {
         throw ("Insufficient account balance!");
       }
 

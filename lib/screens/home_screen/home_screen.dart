@@ -19,12 +19,38 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late List<Transaction> transactionsList;
 
+  var _isLoading = false;
+
   void _onAddNewTransactionPressed() async {
     await showModalBottomSheet(
       isScrollControlled: true,
       isDismissible: false,
       context: context,
       builder: (context) => const NewTransactionModalContent(),
+    );
+  }
+
+  Future<void> _fetchTransactions() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await ref.read(transactionsProvider.notifier).fetchAllTransactions();
+
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(
+      const Duration(milliseconds: 1),
+      _fetchTransactions,
     );
   }
 
@@ -37,8 +63,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final isEmptyList = transactionsList.isEmpty;
 
     return RefreshIndicator(
-      onRefresh: () =>
-          ref.read(transactionsProvider.notifier).fetchAllTransactions(),
+      onRefresh: _fetchTransactions,
       child: Scaffold(
           floatingActionButton: GestureDetector(
             onTap: _onAddNewTransactionPressed,

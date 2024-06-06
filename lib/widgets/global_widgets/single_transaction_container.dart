@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/colors/custom_colors.dart';
 import 'package:daily_expense_tracker/providers/transactions_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -121,7 +122,9 @@ class SingleTransactionContainer extends ConsumerWidget {
                 "$plusOrMinusText ${transaction.amount} \$",
                 textScaler: const TextScaler.linear(1.1),
                 style: TextStyle(
-                  color: isExpense ? Colors.red : Colors.green,
+                  color: isExpense
+                      ? CustomColors.expenseBarFillColor
+                      : CustomColors.incomeBarFillColor,
                   fontSize: 20,
                 ),
               ),

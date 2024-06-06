@@ -1,6 +1,6 @@
 import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/new_category_icon_modal_content.dart';
 import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
-import 'package:daily_expense_tracker/utils/converter/convert_enum_values.dart';
+import 'package:daily_expense_tracker/utils/converters/convert_enum_values.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';

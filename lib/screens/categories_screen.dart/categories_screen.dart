@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/widgets/categories_screen/bars_chart/chart_container.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daily_expense_tracker/widgets/categories_screen/grouped_transactions_container.dart';
@@ -33,8 +34,17 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           child: Column(
             children: [
               Container(
-                height: 180,
-                color: Colors.black,
+                height: 250,
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 15,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: const ChartContainer(),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 20.0),

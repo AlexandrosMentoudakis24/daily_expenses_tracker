@@ -1,26 +1,29 @@
-import 'package:daily_expense_tracker/colors/custom_colors.dart';
-import 'package:daily_expense_tracker/providers/transaction_filters_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:daily_expense_tracker/models/transaction.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:daily_expense_tracker/colors/custom_colors.dart';
 
-class TransactionFiltersContainer extends ConsumerStatefulWidget {
-  const TransactionFiltersContainer({super.key});
-
-  @override
-  ConsumerState<TransactionFiltersContainer> createState() =>
-      _TransactionFiltersContainerState();
+enum DateSection {
+  daily,
+  monthly,
+  yearly,
 }
 
-class _TransactionFiltersContainerState
-    extends ConsumerState<TransactionFiltersContainer> {
+class DateFilterButtonsContainer extends StatefulWidget {
+  const DateFilterButtonsContainer({super.key});
+
+  @override
+  State<DateFilterButtonsContainer> createState() =>
+      _DateFilterButtonsContainerState();
+}
+
+class _DateFilterButtonsContainerState
+    extends State<DateFilterButtonsContainer> {
+  var activeDateSection = DateSection.values[0];
+
   @override
   Widget build(BuildContext context) {
-    final activeTransactionFilter = ref.watch(transactionFiltersProvider);
-
     return Container(
-      height: 57,
+      height: 50,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(90),
@@ -28,9 +31,9 @@ class _TransactionFiltersContainerState
       ),
       child: Row(
         children: [
-          ...TransactionType.values.map(
+          ...DateSection.values.map(
             (enumValue) {
-              final isActive = activeTransactionFilter == enumValue;
+              final isActive = activeDateSection == enumValue;
 
               return Expanded(
                 child: LayoutBuilder(
@@ -40,11 +43,11 @@ class _TransactionFiltersContainerState
 
                     return GestureDetector(
                       onTap: () {
-                        if (activeTransactionFilter == enumValue) return;
+                        if (activeDateSection == enumValue) return;
 
-                        ref
-                            .read(transactionFiltersProvider.notifier)
-                            .setNewTransactionType(enumValue);
+                        setState(() {
+                          activeDateSection = enumValue;
+                        });
                       },
                       child: Container(
                         height: availHeight,
@@ -58,13 +61,13 @@ class _TransactionFiltersContainerState
                         ),
                         child: Text(
                           enumValue.name.toUpperCase(),
-                          textScaler: const TextScaler.linear(1.2),
+                          textScaler: const TextScaler.linear(1.1),
                           style: TextStyle(
-                            letterSpacing: 3,
+                            letterSpacing: 2,
                             color: isActive
                                 ? Colors.white
                                 : CustomColors.primaryBgColor,
-                            fontSize: 15,
+                            fontSize: 12,
                           ),
                         ),
                       ),
