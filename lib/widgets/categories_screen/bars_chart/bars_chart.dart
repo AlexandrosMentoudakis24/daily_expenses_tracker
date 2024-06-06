@@ -50,8 +50,7 @@ class _BarsChartState extends ConsumerState<BarsChart> {
 
   @override
   Widget build(BuildContext context) {
-    final existingTransactions =
-        ref.watch(transactionsProvider).existingTransactions;
+    ref.watch(transactionsProvider).existingTransactions;
 
     return BarChart(
       BarChartData(
