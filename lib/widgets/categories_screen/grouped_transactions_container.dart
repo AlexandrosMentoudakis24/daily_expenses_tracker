@@ -1,8 +1,10 @@
-import 'package:daily_expense_tracker/providers/transaction_filters_provider.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:daily_expense_tracker/widgets/global_widgets/empty_screen_content.dart';
 import 'package:daily_expense_tracker/widgets/global_widgets/transaction_list.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:daily_expense_tracker/providers/transaction_filters_provider.dart';
 
 class GroupedTransactionsContainer extends ConsumerStatefulWidget {
   const GroupedTransactionsContainer({super.key});

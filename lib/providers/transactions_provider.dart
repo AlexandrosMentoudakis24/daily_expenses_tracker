@@ -1,9 +1,9 @@
-import 'package:daily_expense_tracker/utils/constants/web_server_uri_constants.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
 
+import 'package:daily_expense_tracker/utils/constants/web_server_uri_constants.dart';
 import 'package:daily_expense_tracker/models/transaction.dart';
 
 class TransactionsNotifier extends ChangeNotifier {

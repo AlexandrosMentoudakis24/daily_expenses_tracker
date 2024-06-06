@@ -1,9 +1,9 @@
-import 'package:daily_expense_tracker/models/transaction.dart';
-import 'package:daily_expense_tracker/models/user_account.dart';
+import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter/material.dart';
+import 'package:daily_expense_tracker/models/user_account.dart';
+import 'package:daily_expense_tracker/models/transaction.dart';
 
 class LoggedUserAccountNotifier extends ChangeNotifier {
   LoggedUserAccountNotifier()

@@ -1,9 +1,10 @@
-import 'package:daily_expense_tracker/colors/custom_colors.dart';
-import 'package:daily_expense_tracker/providers/transaction_filters_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:daily_expense_tracker/models/transaction.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:daily_expense_tracker/providers/transaction_filters_provider.dart';
+import 'package:daily_expense_tracker/colors/custom_colors.dart';
+import 'package:daily_expense_tracker/models/transaction.dart';
 
 class TransactionFiltersContainer extends ConsumerStatefulWidget {
   const TransactionFiltersContainer({super.key});

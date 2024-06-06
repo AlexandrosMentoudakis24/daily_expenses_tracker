@@ -1,7 +1,8 @@
-import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
-import 'package:daily_expense_tracker/utils/converters/convert_enum_values.dart';
-import 'package:daily_expense_tracker/widgets/global_widgets/single_category_icon_item.dart';
 import 'package:flutter/material.dart';
+
+import 'package:daily_expense_tracker/widgets/global_widgets/single_category_icon_item.dart';
+import 'package:daily_expense_tracker/utils/converters/convert_enum_values.dart';
+import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
 
 class NewCategoryIconModalContent extends StatefulWidget {
   const NewCategoryIconModalContent({super.key});

@@ -1,10 +1,12 @@
-import 'package:daily_expense_tracker/models/transaction.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/not_enough_balance_modal_content.dart';
 import 'package:daily_expense_tracker/providers/new_transaction_provider.dart';
 import 'package:daily_expense_tracker/providers/transactions_provider.dart';
 import 'package:daily_expense_tracker/providers/user_account_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:daily_expense_tracker/models/transaction.dart';
 
 class NewTransactionCompleteButton extends ConsumerStatefulWidget {
   const NewTransactionCompleteButton({

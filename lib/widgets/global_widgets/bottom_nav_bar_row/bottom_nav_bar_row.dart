@@ -1,7 +1,9 @@
-import 'package:daily_expense_tracker/colors/custom_colors.dart';
-import 'package:daily_expense_tracker/providers/bottom_nav_bar_provider.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:daily_expense_tracker/providers/bottom_nav_bar_provider.dart';
+import 'package:daily_expense_tracker/colors/custom_colors.dart';
 
 class BottomNavBarRow extends ConsumerStatefulWidget {
   const BottomNavBarRow({

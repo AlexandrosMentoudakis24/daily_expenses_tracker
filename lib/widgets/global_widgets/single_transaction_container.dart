@@ -1,11 +1,11 @@
-import 'package:daily_expense_tracker/colors/custom_colors.dart';
-import 'package:daily_expense_tracker/providers/transactions_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/answer_modal_content.dart';
 import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
+import 'package:daily_expense_tracker/providers/transactions_provider.dart';
+import 'package:daily_expense_tracker/colors/custom_colors.dart';
 import 'package:daily_expense_tracker/models/transaction.dart';
 
 class SingleTransactionContainer extends ConsumerWidget {

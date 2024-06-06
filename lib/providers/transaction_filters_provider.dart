@@ -1,6 +1,7 @@
-import 'package:daily_expense_tracker/models/transaction.dart';
-import 'package:daily_expense_tracker/providers/transactions_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:daily_expense_tracker/providers/transactions_provider.dart';
+import 'package:daily_expense_tracker/models/transaction.dart';
 
 class TransactionFiltersNotifier extends StateNotifier<TransactionType> {
   TransactionFiltersNotifier()

@@ -1,11 +1,10 @@
-import 'package:basic_utils/basic_utils.dart';
-import 'package:daily_expense_tracker/widgets/new_transaction/new_transaction_category_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:basic_utils/basic_utils.dart';
 
+import 'package:daily_expense_tracker/widgets/new_transaction/new_transaction_category_selection.dart';
 import 'package:daily_expense_tracker/widgets/new_transaction/new_transaction_complete_button.dart';
 import 'package:daily_expense_tracker/widgets/new_transaction/new_transaction_radio_buttons.dart';
 import 'package:daily_expense_tracker/widgets/global_widgets/white_closing_modal_line.dart';
@@ -142,8 +141,12 @@ class _NewTransactionModalContentState
                 onChanged: (newValue) {
                   final enteredValue = newValue.trim();
 
-                  final formattedValue =
-                      "${StringUtils.capitalize(enteredValue.substring(0, 1))}${enteredValue.substring(1)}";
+                  var formattedValue = StringUtils.capitalize(enteredValue);
+
+                  if (enteredValue.length >= 2) {
+                    formattedValue =
+                        "${StringUtils.capitalize(enteredValue.substring(0, 1))}${enteredValue.substring(1)}";
+                  }
 
                   ref
                       .read(newTransactionProvider.notifier)

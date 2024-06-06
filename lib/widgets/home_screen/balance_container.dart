@@ -1,7 +1,8 @@
-import 'package:daily_expense_tracker/providers/user_account_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:daily_expense_tracker/providers/user_account_provider.dart';
 
 class BalanceContainer extends ConsumerWidget {
   const BalanceContainer({super.key});

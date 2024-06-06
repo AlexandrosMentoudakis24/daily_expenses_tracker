@@ -1,13 +1,13 @@
-import 'package:daily_expense_tracker/colors/custom_colors.dart';
-import 'package:daily_expense_tracker/providers/transactions_provider.dart';
-import 'package:daily_expense_tracker/widgets/global_widgets/empty_screen_content.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/new_transaction_modal_content.dart';
+import 'package:daily_expense_tracker/widgets/global_widgets/empty_screen_content.dart';
 import 'package:daily_expense_tracker/widgets/global_widgets/transaction_list.dart';
 import 'package:daily_expense_tracker/widgets/home_screen/balance_container.dart';
+import 'package:daily_expense_tracker/providers/transactions_provider.dart';
 import 'package:daily_expense_tracker/models/transaction.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -19,7 +19,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late List<Transaction> transactionsList;
 
-  var _isLoading = false;
+  var _circleIconButtonSize = 60.0;
+  double? _circleIconButtonX;
+  double? _circleIconButtonY;
 
   void _onAddNewTransactionPressed() async {
     await showModalBottomSheet(
@@ -31,16 +33,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> _fetchTransactions() async {
-    setState(() {
-      _isLoading = true;
-    });
-
     await ref.read(transactionsProvider.notifier).fetchAllTransactions();
 
     if (!mounted) return;
+  }
+
+  void _changeButtonsPosition(Offset newOffSet) {
+    setState(() {
+      _circleIconButtonX = newOffSet.dx;
+      _circleIconButtonY = newOffSet.dy;
+    });
+  }
+
+  void _finalizeButtonsPosition(Offset newOffSet) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    final isRightPosition = newOffSet.dx >= screenWidth / 2.0;
+
+    final isFullTop = newOffSet.dy <= 20;
+    final isFullBottom = newOffSet.dy >= screenHeight - _circleIconButtonSize;
+
+    _circleIconButtonY = newOffSet.dy;
+
+    if (isFullTop) {
+      _circleIconButtonY = _circleIconButtonSize;
+    }
+
+    if (isFullBottom) {
+      _circleIconButtonY = screenHeight - _circleIconButtonSize * 2.5;
+    }
 
     setState(() {
-      _isLoading = false;
+      _circleIconButtonX = isRightPosition
+          ? screenWidth - _circleIconButtonSize
+          : _circleIconButtonSize / 2 - 5;
     });
   }
 
@@ -62,24 +89,69 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final isEmptyList = transactionsList.isEmpty;
 
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    _circleIconButtonX =
+        _circleIconButtonX ?? screenWidth - _circleIconButtonSize;
+    _circleIconButtonY =
+        _circleIconButtonY ?? screenHeight - _circleIconButtonSize * 2.5;
+
     return RefreshIndicator(
       onRefresh: _fetchTransactions,
       child: Scaffold(
-          floatingActionButton: GestureDetector(
-            onTap: _onAddNewTransactionPressed,
-            child: Container(
-              alignment: Alignment.center,
-              height: 60,
-              width: 60,
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 70, 167, 246),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.add,
-                size: 35,
-                color: Colors.white,
-              ),
+          floatingActionButton: SizedBox(
+            height: screenHeight,
+            width: screenWidth,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: _circleIconButtonY,
+                  left: _circleIconButtonX,
+                  child: GestureDetector(
+                    onTap: _onAddNewTransactionPressed,
+                    onLongPressMoveUpdate: (details) {
+                      final Offset newOffSet = Offset(
+                        details.globalPosition.dx,
+                        details.globalPosition.dy,
+                      );
+
+                      _changeButtonsPosition(newOffSet);
+                    },
+                    onLongPressStart: (details) {
+                      setState(() {
+                        _circleIconButtonSize = 55;
+                      });
+                    },
+                    onLongPressEnd: (LongPressEndDetails details) {
+                      final Offset newOffSet = Offset(
+                        details.globalPosition.dx,
+                        details.globalPosition.dy,
+                      );
+
+                      setState(() {
+                        _circleIconButtonSize = 60;
+                      });
+
+                      _finalizeButtonsPosition(newOffSet);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: _circleIconButtonSize,
+                      width: _circleIconButtonSize,
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 70, 167, 246),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.add,
+                        size: 35,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           appBar: AppBar(
