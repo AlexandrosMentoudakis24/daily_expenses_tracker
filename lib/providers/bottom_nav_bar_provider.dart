@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/screens/money_exchange_screen/money_exchange_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,11 @@ const List<Map<String, dynamic>> availableScreens = [
     "title": "categories",
     "screen": CategoriesScreen(),
     "icon": Icons.bar_chart,
+  },
+  {
+    "title": "wallet",
+    "screen": MoneyExchangeScreen(),
+    "icon": Icons.wallet,
   },
   {
     "title": "calendar",

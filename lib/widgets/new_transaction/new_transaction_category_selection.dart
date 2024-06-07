@@ -17,7 +17,7 @@ class NewTransactionCategorySelection extends ConsumerStatefulWidget {
 
 class _NewTransactionCategorySelectionState
     extends ConsumerState<NewTransactionCategorySelection> {
-  var transactionCategory = TransactionCategory.superMarket;
+  var transactionCategory = TransactionCategory.values[0];
 
   void _selectNewTransactionCategoryIcon() async {
     final choise = await showModalBottomSheet(

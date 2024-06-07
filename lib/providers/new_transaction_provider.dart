@@ -12,7 +12,7 @@ class NewTransactionNotifier extends ChangeNotifier {
       : newTransaction = Transaction(
           transactionId: "",
           transactionInfo: "",
-          transactionCategory: TransactionCategory.superMarket,
+          transactionCategory: TransactionCategory.values[0],
           transactionType: TransactionType.income,
           amount: 0.0,
         );
@@ -23,7 +23,7 @@ class NewTransactionNotifier extends ChangeNotifier {
     newTransaction = Transaction(
       transactionId: "",
       transactionInfo: "",
-      transactionCategory: TransactionCategory.superMarket,
+      transactionCategory: TransactionCategory.values[0],
       transactionType: TransactionType.income,
       amount: 0.0,
     );

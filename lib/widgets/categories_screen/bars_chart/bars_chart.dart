@@ -37,17 +37,8 @@ class _BarsChartState extends ConsumerState<BarsChart> {
         existingTransactions,
         7,
       );
-    }
-
-    if (widget.dateSection == DateSection.monthly) {
+    } else {
       transactionValues = CustomDateUtils.findSpecifiedValuesForNMonths(
-        existingTransactions,
-        7,
-      );
-    }
-
-    if (widget.dateSection == DateSection.yearly) {
-      transactionValues = CustomDateUtils.findSpecifiedValuesForNDays(
         existingTransactions,
         7,
       );
@@ -67,37 +58,23 @@ class _BarsChartState extends ConsumerState<BarsChart> {
   String formatString(double providedValue) {
     var initialString = providedValue.toString().split(".")[0];
 
-    switch (widget.dateSection) {
-      case DateSection.daily:
-        var extraString = "th";
+    if (widget.dateSection == DateSection.daily) {
+      var extraString = "th";
 
-        if (providedValue == 1) extraString = "st";
-        if (providedValue == 2) extraString = "nd";
-        if (providedValue == 3) extraString = "rd";
+      if (providedValue == 1) extraString = "st";
+      if (providedValue == 2) extraString = "nd";
+      if (providedValue == 3) extraString = "rd";
 
-        initialString += extraString;
+      initialString += extraString;
 
-        break;
-      case DateSection.monthly:
-        initialString = convertIntToMonth(
-          int.parse(
-            providedValue.toString().split(".")[0],
-          ),
-        );
-
-        break;
-      case DateSection.yearly:
-        var extraString = "th";
-
-        if (providedValue == 1) extraString = "st";
-        if (providedValue == 2) extraString = "nd";
-        if (providedValue == 3) extraString = "rd";
-
-        initialString += extraString;
-
-        break;
-      default:
+      return initialString;
     }
+
+    initialString = convertIntToMonth(
+      int.parse(
+        providedValue.toString().split(".")[0],
+      ),
+    );
 
     return initialString;
   }
@@ -182,6 +159,10 @@ class _BarsChartState extends ConsumerState<BarsChart> {
                   toY: tObj["incomes"],
                   color: CustomColors.incomeBarFillColor,
                 ),
+                // BarChartRodData(
+                //   toY: tObj["incomes"],
+                //   color: Colors.yellow,
+                // ),
               ],
             ),
         ],
