@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/widgets/home_screen/search_bar_container.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late List<Transaction> transactionsList;
+
+  var _isSearchBarExpanded = false;
 
   var _circleIconButtonSize = 60.0;
   double? _circleIconButtonX;
@@ -99,123 +102,144 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return RefreshIndicator(
       onRefresh: _fetchTransactions,
-      child: Scaffold(
-          floatingActionButton: SizedBox(
-            height: screenHeight,
-            width: screenWidth,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: _circleIconButtonY,
-                  left: _circleIconButtonX,
-                  child: GestureDetector(
-                    onTap: _onAddNewTransactionPressed,
-                    onLongPressMoveUpdate: (details) {
-                      final Offset newOffSet = Offset(
-                        details.globalPosition.dx,
-                        details.globalPosition.dy,
-                      );
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus!.unfocus();
 
-                      _changeButtonsPosition(newOffSet);
-                    },
-                    onLongPressStart: (details) {
-                      setState(() {
-                        _circleIconButtonSize = 55;
-                      });
-                    },
-                    onLongPressEnd: (LongPressEndDetails details) {
-                      final Offset newOffSet = Offset(
-                        details.globalPosition.dx,
-                        details.globalPosition.dy,
-                      );
+          setState(() {
+            _isSearchBarExpanded = false;
+          });
+        },
+        child: Scaffold(
+            floatingActionButton: SizedBox(
+              height: screenHeight,
+              width: screenWidth,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: _circleIconButtonY,
+                    left: _circleIconButtonX,
+                    child: GestureDetector(
+                      onTap: _onAddNewTransactionPressed,
+                      onLongPressMoveUpdate: (details) {
+                        final Offset newOffSet = Offset(
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                        );
 
-                      setState(() {
-                        _circleIconButtonSize = 60;
-                      });
+                        _changeButtonsPosition(newOffSet);
+                      },
+                      onLongPressStart: (details) {
+                        setState(() {
+                          _circleIconButtonSize = 55;
+                        });
+                      },
+                      onLongPressEnd: (LongPressEndDetails details) {
+                        final Offset newOffSet = Offset(
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                        );
 
-                      _finalizeButtonsPosition(newOffSet);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: _circleIconButtonSize,
-                      width: _circleIconButtonSize,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 70, 167, 246),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        size: 35,
-                        color: Colors.white,
+                        setState(() {
+                          _circleIconButtonSize = 60;
+                        });
+
+                        _finalizeButtonsPosition(newOffSet);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: _circleIconButtonSize,
+                        width: _circleIconButtonSize,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 70, 167, 246),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.add,
+                          size: 35,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          appBar: AppBar(
-            title: const Text(
-              "Daily Expense Tracker",
-            ),
-            actions: const <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 8.0),
-                child: Icon(
-                  Icons.search,
-                ),
-              ),
-            ],
-          ),
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const BalanceContainer(),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Transactions",
-                        textScaler: TextScaler.linear(1.1),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "See all",
-                          textScaler: TextScaler.linear(1.1),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  isEmptyList
-                      ? const EmptyScreenContent()
-                      : TransactionList(
-                          transactionsList: [
-                            ...transactionsList,
-                          ],
-                        ),
                 ],
               ),
             ),
-          )),
+            appBar: AppBar(
+              centerTitle: !_isSearchBarExpanded,
+              title: _isSearchBarExpanded
+                  ? SearchBarContainer(
+                      isFocused: _isSearchBarExpanded,
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Daily Expense Tracker",
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isSearchBarExpanded = true;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.search,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const BalanceContainer(),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Transactions",
+                          textScaler: TextScaler.linear(1.1),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "See all",
+                            textScaler: TextScaler.linear(1.1),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    isEmptyList
+                        ? const EmptyScreenContent()
+                        : TransactionList(
+                            transactionsList: [
+                              ...transactionsList,
+                            ],
+                          ),
+                  ],
+                ),
+              ),
+            )),
+      ),
     );
   }
 }

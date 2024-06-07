@@ -17,3 +17,26 @@ String convertEnumToString(Enum enumValue) {
 
   return finalFormattedWord;
 }
+
+String convertIntToMonth(int month) {
+  if (month < 1 || month > 12) {
+    throw ArgumentError('Month must be between 1 and 12');
+  }
+
+  List<String> monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
+  return monthNames[month - 1];
+}

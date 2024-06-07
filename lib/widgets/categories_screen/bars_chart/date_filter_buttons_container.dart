@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'package:daily_expense_tracker/utils/enum_values/enum_values.dart';
 import 'package:daily_expense_tracker/colors/custom_colors.dart';
 
-enum DateSection {
-  daily,
-  monthly,
-  yearly,
-}
-
 class DateFilterButtonsContainer extends StatefulWidget {
-  const DateFilterButtonsContainer({super.key});
+  const DateFilterButtonsContainer({
+    required this.onDateTypeChangedHandler,
+    super.key,
+  });
+
+  final void Function(DateSection dateSection) onDateTypeChangedHandler;
 
   @override
   State<DateFilterButtonsContainer> createState() =>
@@ -44,6 +44,8 @@ class _DateFilterButtonsContainerState
                     return GestureDetector(
                       onTap: () {
                         if (activeDateSection == enumValue) return;
+
+                        widget.onDateTypeChangedHandler(enumValue);
 
                         setState(() {
                           activeDateSection = enumValue;

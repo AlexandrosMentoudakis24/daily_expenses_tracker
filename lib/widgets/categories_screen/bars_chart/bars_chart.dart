@@ -5,12 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import 'package:daily_expense_tracker/utils/converters/convert_enum_values.dart';
 import 'package:daily_expense_tracker/providers/transactions_provider.dart';
+import 'package:daily_expense_tracker/utils/enum_values/enum_values.dart';
 import 'package:daily_expense_tracker/utils/date_utils/date_utils.dart';
 import 'package:daily_expense_tracker/colors/custom_colors.dart';
 
 class BarsChart extends ConsumerStatefulWidget {
-  const BarsChart({super.key});
+  const BarsChart({
+    required this.dateSection,
+    super.key,
+  });
+
+  final DateSection dateSection;
 
   @override
   ConsumerState<BarsChart> createState() => _BarsChartState();
@@ -21,14 +28,30 @@ class _BarsChartState extends ConsumerState<BarsChart> {
 
   double maxValue = 0.0;
 
-  void _constructDailyTransactionsChart() {
+  void _constructTransactionsChart() {
     final existingTransactions =
         ref.read(transactionsProvider).existingTransactions;
 
-    transactionValues = CustomDateUtils.findSpecifiedValuesForNDays(
-      existingTransactions,
-      7,
-    );
+    if (widget.dateSection == DateSection.daily) {
+      transactionValues = CustomDateUtils.findSpecifiedValuesForNDays(
+        existingTransactions,
+        7,
+      );
+    }
+
+    if (widget.dateSection == DateSection.monthly) {
+      transactionValues = CustomDateUtils.findSpecifiedValuesForNMonths(
+        existingTransactions,
+        7,
+      );
+    }
+
+    if (widget.dateSection == DateSection.yearly) {
+      transactionValues = CustomDateUtils.findSpecifiedValuesForNDays(
+        existingTransactions,
+        7,
+      );
+    }
 
     for (final tObj in transactionValues) {
       maxValue = max(
@@ -41,16 +64,49 @@ class _BarsChartState extends ConsumerState<BarsChart> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
+  String formatString(double providedValue) {
+    var initialString = providedValue.toString().split(".")[0];
 
-    _constructDailyTransactionsChart();
+    switch (widget.dateSection) {
+      case DateSection.daily:
+        var extraString = "th";
+
+        if (providedValue == 1) extraString = "st";
+        if (providedValue == 2) extraString = "nd";
+        if (providedValue == 3) extraString = "rd";
+
+        initialString += extraString;
+
+        break;
+      case DateSection.monthly:
+        initialString = convertIntToMonth(
+          int.parse(
+            providedValue.toString().split(".")[0],
+          ),
+        );
+
+        break;
+      case DateSection.yearly:
+        var extraString = "th";
+
+        if (providedValue == 1) extraString = "st";
+        if (providedValue == 2) extraString = "nd";
+        if (providedValue == 3) extraString = "rd";
+
+        initialString += extraString;
+
+        break;
+      default:
+    }
+
+    return initialString;
   }
 
   @override
   Widget build(BuildContext context) {
     ref.watch(transactionsProvider).existingTransactions;
+
+    _constructTransactionsChart();
 
     return BarChart(
       BarChartData(
@@ -77,25 +133,22 @@ class _BarsChartState extends ConsumerState<BarsChart> {
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-              reservedSize: 25,
+              reservedSize: 30,
               showTitles: true,
               getTitlesWidget: (value, meta) {
-                var extraString = "th";
-                if (value == 1) extraString = "st";
-                if (value == 2) extraString = "nd";
-                if (value == 3) extraString = "rd";
+                final extraString = formatString(value);
 
                 return Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top: 7.0),
                   child: Text(
-                    "${value.toString().split(".")[0]}$extraString",
+                    extraString,
                   ),
                 );
               },
             ),
           ),
-          rightTitles: AxisTitles(),
-          topTitles: AxisTitles(),
+          rightTitles: const AxisTitles(),
+          topTitles: const AxisTitles(),
         ),
         borderData: FlBorderData(
           show: true,
