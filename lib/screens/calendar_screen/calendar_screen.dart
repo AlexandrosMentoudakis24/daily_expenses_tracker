@@ -11,37 +11,22 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Daily Expense Tracker",
-        ),
-        actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 8.0),
-            child: Icon(
-              Icons.search,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final maxHeight = constraints.maxHeight;
+        final maxWidth = constraints.maxWidth;
+
+        return const Padding(
+          padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                BalanceContainer(),
+              ],
             ),
           ),
-        ],
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final maxHeight = constraints.maxHeight;
-          final maxWidth = constraints.maxWidth;
-
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const BalanceContainer(),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+        );
+      },
     );
   }
 }

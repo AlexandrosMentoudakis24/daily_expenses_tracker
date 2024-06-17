@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
+import 'package:daily_expense_tracker/models/transaction_category_icons.dart';
 
 enum TransactionType {
   income,
@@ -63,7 +63,7 @@ class Transaction {
         mappedTransactionInfos["amount"].toString(),
       ),
       createdAt: DateFormat(
-        "dd-MM-yyyy hh:mm:ss",
+        "dd-MM-yyyy",
       ).parse(
         mappedTransactionInfos["createdAt"],
       ),

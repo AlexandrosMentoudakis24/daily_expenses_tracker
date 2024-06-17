@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/new_category_icon_modal_content.dart';
 import 'package:daily_expense_tracker/utils/converters/convert_enum_values.dart';
 import 'package:daily_expense_tracker/providers/new_transaction_provider.dart';
-import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
+import 'package:daily_expense_tracker/models/transaction_category_icons.dart';
 
 class NewTransactionCategorySelection extends ConsumerStatefulWidget {
   const NewTransactionCategorySelection({super.key});
@@ -50,63 +51,65 @@ class _NewTransactionCategorySelectionState
 
     final newTransactionIcon = transactionCategoryIcons[transactionCategory];
 
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return SizedBox(
-      width: screenWidth,
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            width: screenWidth * 0.68,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.white,
-                width: 2,
-              ),
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: screenWidth * 0.68 * 0.8,
-                  child: Text(
-                    convertEnumToString(transactionCategory),
-                    textScaler: const TextScaler.linear(1.1),
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                Icon(
-                  newTransactionIcon,
-                  color: Colors.white,
-                  size: 25,
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          GestureDetector(
-            onTap: _selectNewTransactionCategoryIcon,
-            child: Container(
-              padding: const EdgeInsets.all(11),
+    return LayoutBuilder(
+      builder: (context, constraints) => SizedBox(
+        width: constraints.maxWidth,
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              width: constraints.maxWidth * 0.75,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
                 border: Border.all(
                   color: Colors.white,
-                  width: 3,
+                  width: 2,
                 ),
               ),
-              child: const Icon(
-                Icons.add,
-                size: 30,
-                color: Colors.white,
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: SizedBox(
+                      width: constraints.maxWidth * 0.75 * 0.8,
+                      child: Text(
+                        convertEnumToString(transactionCategory),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 21,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    newTransactionIcon,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            const Spacer(),
+            GestureDetector(
+              onTap: _selectNewTransactionCategoryIcon,
+              child: Container(
+                padding: const EdgeInsets.all(11),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 3,
+                  ),
+                ),
+                child: const Icon(
+                  Icons.add,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

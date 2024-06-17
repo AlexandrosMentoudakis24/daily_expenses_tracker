@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:daily_expense_tracker/widgets/global_widgets/bottom_nav_bar_row/bottom_nav_bar_row.dart';
+import 'package:daily_expense_tracker/widgets/global_widgets/main_scaffold/main_scaffold.dart';
 import 'package:daily_expense_tracker/providers/bottom_nav_bar_provider.dart';
 import 'package:daily_expense_tracker/colors/custom_colors.dart';
 
@@ -21,6 +22,8 @@ class _MyAppState extends ConsumerState<MyApp> {
     final currentDisplayedScreen = bottomNavBarProv.currentDisplayedScreen;
 
     final screenHeight = MediaQuery.of(context).size.height;
+
+    final isKeyboardFocused = MediaQuery.of(context).viewInsets.bottom > 0.0;
 
     const bottomNavBarHeight = 70.0;
 
@@ -44,22 +47,29 @@ class _MyAppState extends ConsumerState<MyApp> {
             fontSize: 22,
           ),
         ),
-        colorScheme: const ColorScheme.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: CustomColors.primaryBgColor,
           background: CustomColors.primaryBgColor,
         ),
         useMaterial3: true,
       ),
-      home: Column(
-        children: [
-          SizedBox(
-            height: screenHeight - bottomNavBarHeight,
-            child: currentDisplayedScreen,
-          ),
-          const SizedBox(
-            height: bottomNavBarHeight,
-            child: BottomNavBarRow(),
-          )
-        ],
+      home: MainScaffold(
+        bodyContent: Column(
+          children: [
+            Flexible(
+              flex: 1,
+              child: SizedBox(
+                height: screenHeight - bottomNavBarHeight - kToolbarHeight,
+                child: currentDisplayedScreen,
+              ),
+            ),
+            if (!isKeyboardFocused)
+              const SizedBox(
+                height: bottomNavBarHeight,
+                child: BottomNavBarRow(),
+              )
+          ],
+        ),
       ),
     );
   }

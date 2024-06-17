@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:daily_expense_tracker/widgets/global_widgets/single_category_icon_item.dart';
 import 'package:daily_expense_tracker/utils/converters/convert_enum_values.dart';
-import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
+import 'package:daily_expense_tracker/models/transaction_category_icons.dart';
+
+const Color _textColor = Colors.white;
+const Color _bgColor = Colors.black;
 
 class NewCategoryIconModalContent extends StatefulWidget {
   const NewCategoryIconModalContent({super.key});
@@ -19,7 +22,7 @@ class _NewCategoryIconModalContentState
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    final verticalMargin = screenHeight * 0.1;
+    final verticalMargin = screenHeight * 0.15;
     const contentPadding = 15.0;
     const topRowHeight = 40.0;
 
@@ -27,6 +30,7 @@ class _NewCategoryIconModalContentState
         screenHeight - (2 * verticalMargin) - contentPadding - topRowHeight;
 
     return Container(
+      width: screenWidth * 0.9,
       margin: EdgeInsets.symmetric(
         vertical: verticalMargin,
       ),
@@ -36,8 +40,8 @@ class _NewCategoryIconModalContentState
         contentPadding,
         0.0,
       ),
-      width: screenWidth * 0.9,
       decoration: BoxDecoration(
+        color: _bgColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: Colors.white,
@@ -48,38 +52,34 @@ class _NewCategoryIconModalContentState
         children: [
           Flexible(
             flex: 1,
-            child: SizedBox(
+            child: Container(
               height: topRowHeight,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(left: 25),
-                    width: screenWidth * 0.9 - (2 * contentPadding) - 50,
-                    child: const Text(
-                      "Select Preffered Icon",
-                      textScaler: TextScaler.linear(1.1),
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ],
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: const Icon(
+                  Icons.close,
+                  color: _textColor,
+                  size: 36,
+                ),
               ),
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(top: 30),
-            height: availableContentHeight - 30,
+            alignment: Alignment.center,
+            child: const Text(
+              "Select Category",
+              textScaler: TextScaler.linear(1.2),
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: _textColor,
+                fontSize: 22,
+              ),
+            ),
+          ),
+          Container(
+            height: availableContentHeight - 60,
+            padding: const EdgeInsets.only(top: 20),
             child: ListView.builder(
               itemCount: TransactionCategory.values.length,
               itemBuilder: (context, index) {
@@ -98,6 +98,7 @@ class _NewCategoryIconModalContentState
                     itemWidth: screenWidth * 0.9,
                     title: formattedString,
                     icon: currentCategoryIcon!,
+                    textColor: _textColor,
                   ),
                 );
               },

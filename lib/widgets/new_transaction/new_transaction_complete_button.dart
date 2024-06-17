@@ -121,7 +121,7 @@ class _NewTransactionCompleteButtonState
       width: screenWidth * 0.55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.white,
           splashFactory: NoSplash.splashFactory,
         ),
         onPressed: _saveTransaction,
@@ -133,7 +133,7 @@ class _NewTransactionCompleteButtonState
               textScaler: TextScaler.linear(1.1),
               style: TextStyle(
                 letterSpacing: 1.1,
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 22,
               ),
             ),
@@ -142,7 +142,7 @@ class _NewTransactionCompleteButtonState
               child: Icon(
                 Icons.done_all,
                 size: 25,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ],

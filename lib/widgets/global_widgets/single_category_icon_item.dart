@@ -6,6 +6,7 @@ class SingleCategoryIconItem extends StatelessWidget {
     required this.itemWidth,
     required this.title,
     required this.icon,
+    required this.textColor,
     super.key,
   });
 
@@ -13,16 +14,17 @@ class SingleCategoryIconItem extends StatelessWidget {
   final double itemWidth;
   final String title;
   final IconData icon;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: itemHeight,
       width: itemWidth,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.white,
+            color: textColor,
             width: 2,
           ),
         ),
@@ -31,15 +33,16 @@ class SingleCategoryIconItem extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: Colors.white,
+            textScaler: const TextScaler.linear(1.1),
+            style: TextStyle(
+              color: textColor,
               fontSize: 20,
             ),
           ),
           const Spacer(),
           Icon(
             icon,
-            color: Colors.white,
+            color: textColor,
             size: 30,
           ),
         ],

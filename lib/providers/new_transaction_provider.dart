@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 
 import 'package:daily_expense_tracker/utils/constants/web_server_uri_constants.dart';
-import 'package:daily_expense_tracker/models/transactio_category_icons.dart';
+import 'package:daily_expense_tracker/models/transaction_category_icons.dart';
 import 'package:daily_expense_tracker/models/transaction.dart';
 
 class NewTransactionNotifier extends ChangeNotifier {
@@ -15,6 +15,7 @@ class NewTransactionNotifier extends ChangeNotifier {
           transactionCategory: TransactionCategory.values[0],
           transactionType: TransactionType.income,
           amount: 0.0,
+          createdAt: DateTime.now(),
         );
 
   Transaction newTransaction;
@@ -26,6 +27,7 @@ class NewTransactionNotifier extends ChangeNotifier {
       transactionCategory: TransactionCategory.values[0],
       transactionType: TransactionType.income,
       amount: 0.0,
+      createdAt: DateTime.now(),
     );
 
     notifyListeners();
@@ -55,11 +57,18 @@ class NewTransactionNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setNewTransactionDate(DateTime newDateTime) {
+    newTransaction.createdAt = newDateTime;
+
+    notifyListeners();
+  }
+
   Future<Transaction?> saveTransactionToDB() async {
     final transactionInfo = newTransaction.transactionInfo;
     final transactionCategory = newTransaction.transactionCategory.name;
     final transactionType = newTransaction.transactionType.name;
     final amount = newTransaction.amount;
+    final createdAt = newTransaction.createdAt;
 
     if (transactionInfo.isEmpty || amount <= 0.0) return null;
 
@@ -70,6 +79,7 @@ class NewTransactionNotifier extends ChangeNotifier {
       "transactionCategory": transactionCategory,
       "transactionType": transactionType,
       "amount": amount,
+      "createdAt": createdAt.toString().split(" ")[0],
     };
 
     try {

@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/widgets/new_transaction/new_transaction_date_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,7 +12,7 @@ import 'package:daily_expense_tracker/widgets/global_widgets/white_closing_modal
 import 'package:daily_expense_tracker/providers/new_transaction_provider.dart';
 import 'package:daily_expense_tracker/colors/custom_colors.dart';
 
-const _topPaddingBetweenWidgets = 25.0;
+const _topPaddingBetweenWidgets = 20.0;
 
 InputDecoration _inputDecoration(String decorationLabel) {
   return InputDecoration(
@@ -51,7 +52,7 @@ class _NewTransactionModalContentState
 
   void _clearAllInfos() {
     _infosController.text = "";
-    _amountController.text = "0.0";
+    _amountController.text = "";
 
     ref.read(newTransactionProvider.notifier).clearNewTransaction();
   }
@@ -61,7 +62,8 @@ class _NewTransactionModalContentState
     final newTransaction = ref.read(newTransactionProvider).newTransaction;
 
     _infosController.text = newTransaction.transactionInfo.trim();
-    _amountController.text = "${newTransaction.amount}";
+    _amountController.text =
+        newTransaction.amount == 0.0 ? "" : "${newTransaction.amount}";
 
     super.initState();
   }
@@ -84,7 +86,7 @@ class _NewTransactionModalContentState
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Container(
-        height: screenHeight * 0.8,
+        height: screenHeight * 0.87,
         width: double.infinity,
         padding: const EdgeInsets.all(25),
         decoration: const BoxDecoration(
@@ -193,6 +195,10 @@ class _NewTransactionModalContentState
                 ),
                 decoration: _inputDecoration("Transaction Amount"),
               ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: _topPaddingBetweenWidgets),
+              child: NewTransactionDateContainer(),
             ),
             const Padding(
               padding: EdgeInsets.only(top: _topPaddingBetweenWidgets),

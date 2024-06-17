@@ -1,4 +1,4 @@
-import 'package:daily_expense_tracker/screens/money_exchange_screen/money_exchange_screen.dart';
+import 'package:daily_expense_tracker/screens/money_lending_screen/money_lending_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
