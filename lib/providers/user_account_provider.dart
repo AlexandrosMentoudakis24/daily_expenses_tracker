@@ -46,6 +46,12 @@ class LoggedUserAccountNotifier extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void addMoreFunds(double newAddedAmount) {
+    loggedAccount.increaseBalance(newAddedAmount);
+
+    notifyListeners();
+  }
 }
 
 final loggedUserAccountProvider =

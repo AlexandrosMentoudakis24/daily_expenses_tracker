@@ -1,3 +1,4 @@
+import 'package:daily_expense_tracker/colors/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daily_expense_tracker/widgets/modals/modal_contents.dart/new_transaction_modal_content.dart';
@@ -127,13 +128,17 @@ class _MainScaffoldState extends State<MainScaffold> {
                           alignment: Alignment.center,
                           height: _circleIconButtonSize,
                           width: _circleIconButtonSize,
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 70, 167, 246),
+                          decoration: BoxDecoration(
+                            color: CustomColors.primaryBgColor,
                             shape: BoxShape.circle,
+                            border: Border.all(
+                              color: CustomColors.expenseBarFillColor,
+                              width: 2,
+                            ),
                           ),
                           child: const Icon(
                             Icons.add,
-                            size: 35,
+                            size: 40,
                             color: Colors.white,
                           ),
                         ),

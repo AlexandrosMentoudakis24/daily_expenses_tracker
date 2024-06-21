@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 
 class SearchBarContainer extends StatefulWidget {
@@ -15,6 +16,8 @@ class SearchBarContainer extends StatefulWidget {
 class _SearchBarContainerState extends State<SearchBarContainer> {
   final _searchBarTextController = TextEditingController();
   final _searchBarFocusNode = FocusNode();
+
+  var _isEmptyString = true;
 
   @override
   void initState() {
@@ -48,6 +51,17 @@ class _SearchBarContainerState extends State<SearchBarContainer> {
         maxLines: 1,
         focusNode: _searchBarFocusNode,
         controller: _searchBarTextController,
+        onChanged: (value) {
+          _searchBarTextController.text = StringUtils.capitalize(
+            value.trim(),
+          );
+
+          if (value.trim().isEmpty) return;
+
+          setState(() {
+            _isEmptyString = value.trim().isEmpty ? true : false;
+          });
+        },
         style: const TextStyle(
           color: Colors.white,
           fontSize: 18,
@@ -64,16 +78,21 @@ class _SearchBarContainerState extends State<SearchBarContainer> {
             ),
             child: const Icon(
               Icons.search,
+              color: Colors.white,
+              size: 25,
             ),
           ),
           suffixIcon: IconButton(
             onPressed: () {
               setState(() {
                 _searchBarTextController.text = "";
+                _isEmptyString = true;
               });
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.close,
+              color: _isEmptyString ? Colors.grey : Colors.white,
+              size: 27,
             ),
           ),
         ),

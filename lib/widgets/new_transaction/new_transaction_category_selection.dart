@@ -25,6 +25,7 @@ class _NewTransactionCategorySelectionState
       isScrollControlled: true,
       isDismissible: false,
       enableDrag: false,
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
       context: context,
       builder: (context) => const NewCategoryIconModalContent(),
     );

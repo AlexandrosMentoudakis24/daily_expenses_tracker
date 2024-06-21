@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 class CircleUserAvatar extends StatelessWidget {
   const CircleUserAvatar({
+    bool? hasImage,
+    this.imageUrl,
     required this.firstName,
     required this.icon,
     super.key,
-  });
+  }) : hasImage = false;
 
+  final bool? hasImage;
+  final String? imageUrl;
   final String firstName;
   final IconData icon;
 
@@ -31,11 +35,16 @@ class CircleUserAvatar extends StatelessWidget {
                     width: 2,
                   ),
                 ),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 30,
-                ),
+                child: hasImage!
+                    ? Image.network(
+                        fit: BoxFit.contain,
+                        imageUrl!,
+                      )
+                    : Icon(
+                        icon,
+                        color: Colors.white,
+                        size: 30,
+                      ),
               ),
             ),
             Padding(
