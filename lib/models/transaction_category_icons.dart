@@ -6,6 +6,7 @@ enum TransactionCategory {
   entertainment,
   fastFood,
   cinema,
+  other,
 }
 
 const transactionCategoryIcons = {
@@ -14,4 +15,5 @@ const transactionCategoryIcons = {
   TransactionCategory.fastFood: Icons.fastfood,
   TransactionCategory.cinema: Icons.tv,
   TransactionCategory.salary: Icons.account_balance_wallet,
+  TransactionCategory.other: Icons.indeterminate_check_box,
 };

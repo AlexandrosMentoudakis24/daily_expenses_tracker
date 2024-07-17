@@ -1,21 +1,23 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 
 class CircleUserAvatar extends StatelessWidget {
   const CircleUserAvatar({
-    bool? hasImage,
-    this.imageUrl,
+    required this.userId,
     required this.firstName,
-    required this.icon,
+    required this.lastName,
     super.key,
-  }) : hasImage = false;
+  });
 
-  final bool? hasImage;
-  final String? imageUrl;
+  final String userId;
   final String firstName;
-  final IconData icon;
+  final String lastName;
 
   @override
   Widget build(BuildContext context) {
+    final formattedUserFullName =
+        "${firstName[0].toUpperCase()}.${StringUtils.capitalize(lastName)}";
+
     return LayoutBuilder(
       builder: (context, constraints) => SizedBox(
         height: constraints.maxHeight,
@@ -35,25 +37,22 @@ class CircleUserAvatar extends StatelessWidget {
                     width: 2,
                   ),
                 ),
-                child: hasImage!
-                    ? Image.network(
-                        fit: BoxFit.contain,
-                        imageUrl!,
-                      )
-                    : Icon(
-                        icon,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+                child: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 30,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Text(
-                firstName,
+                formattedUserFullName,
+                textScaler: const TextScaler.linear(1.1),
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  overflow: TextOverflow.ellipsis,
+                  fontSize: 17,
                 ),
               ),
             ),

@@ -80,26 +80,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(
                 height: 25,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const Row(
                 children: [
-                  const Text(
+                  Text(
                     "Transactions",
                     textScaler: TextScaler.linear(1.1),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "See all",
-                      textScaler: TextScaler.linear(1.1),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
-                      ),
                     ),
                   ),
                 ],

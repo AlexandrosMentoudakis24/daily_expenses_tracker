@@ -11,7 +11,10 @@ class LoggedUserAccountNotifier extends ChangeNotifier {
           accountId: "",
           firstName: "",
           lastName: "",
-          balance: 100.0,
+          age: 0,
+          email: "",
+          balance: 0.0,
+          createdAt: DateTime(0),
         );
 
   UserAccount loggedAccount;
@@ -27,7 +30,10 @@ class LoggedUserAccountNotifier extends ChangeNotifier {
       accountId: "",
       firstName: "",
       lastName: "",
+      age: 0,
+      email: "",
       balance: 0.0,
+      createdAt: DateTime(0),
     );
 
     notifyListeners();
