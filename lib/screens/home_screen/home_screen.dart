@@ -42,9 +42,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   late List<Transaction> transactionsList;
 
   Future<void> _fetchTransactions() async {
-    await ref.read(transactionsProvider.notifier).fetchAllTransactions();
-
-    if (!mounted) return;
+    try {
+      await ref.read(transactionsProvider.notifier).fetchAllTransactions();
+    } catch (err) {
+      print(err);
+    }
   }
 
   @override
@@ -75,10 +77,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const BalanceContainer(),
-              if (false)
-                _chartContainer(
-                  maxWidth: MediaQuery.of(context).size.width,
-                ),
+              _chartContainer(
+                maxWidth: MediaQuery.of(context).size.width,
+              ),
               const SizedBox(
                 height: 25,
               ),

@@ -68,6 +68,8 @@ class TransactionsNotifier extends ChangeNotifier {
 
       notifyListeners();
     } catch (err) {
+      print(err);
+
       throw "Failed to fetch data!";
     }
   }
