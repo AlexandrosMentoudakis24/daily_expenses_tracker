@@ -46,7 +46,7 @@ class _NewTransactionCompleteButtonState
 
       if (transactionType == TransactionType.expense &&
           balance - transactionAmount < 0.0) {
-        throw ("Insufficient account balance!");
+        throw ("account balance error");
       }
 
       final newTransaction = await newTransactionProvNoti.saveTransactionToDB();
@@ -65,13 +65,15 @@ class _NewTransactionCompleteButtonState
 
       Navigator.of(context).pop();
     } catch (err) {
+      print(err);
+
       setState(() {
         _isLoading = false;
       });
 
       if (!mounted) return;
 
-      if (err == "Insufficient account balance!") {
+      if (err == "account balance error") {
         await showAdaptiveDialog(
           barrierDismissible: true,
           context: context,
@@ -82,6 +84,8 @@ class _NewTransactionCompleteButtonState
       }
 
       if (!context.mounted) return;
+
+      Navigator.of(context).pop();
 
       ScaffoldMessenger.of(context).clearSnackBars();
 

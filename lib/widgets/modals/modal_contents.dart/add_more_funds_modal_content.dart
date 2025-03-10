@@ -119,7 +119,7 @@ class _AddMoreFundsModalContentState
             Padding(
               padding: const EdgeInsets.only(top: 25.0),
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.75,
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(90),
@@ -195,10 +195,9 @@ class _AddMoreFundsModalContentState
             GestureDetector(
               onTap: _addFunds,
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.45,
+                width: MediaQuery.of(context).size.width * 0.55,
                 margin: const EdgeInsets.only(top: 40.0),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
                   vertical: 10.0,
                 ),
                 alignment: Alignment.center,
@@ -214,7 +213,7 @@ class _AddMoreFundsModalContentState
                   textScaler: TextScaler.linear(1.1),
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 18,
                     letterSpacing: 1.2,
                   ),
                 ),

@@ -1,4 +1,3 @@
-import 'package:daily_expense_tracker/models/transaction_category_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,11 +60,11 @@ class TransactionsNotifier extends ChangeNotifier {
 
       final fetchedTransactions = responseData["transactions"];
 
-      final formattedFetchedTransaction = Transaction.formatAll(
+      final formattedFetchedTransactions = Transaction.formatAll(
         [...fetchedTransactions],
       );
 
-      existingTransactions = [...formattedFetchedTransaction];
+      existingTransactions = [...formattedFetchedTransactions];
 
       notifyListeners();
     } catch (err) {

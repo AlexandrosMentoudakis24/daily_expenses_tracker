@@ -82,6 +82,8 @@ class NewTransactionNotifier extends ChangeNotifier {
       "createdAt": createdAt.toString().split(" ")[0],
     };
 
+    print(formData);
+
     try {
       final response = await dio.post(
         "${WebServer.serverUri}/transactions/saveTransaction",
@@ -93,11 +95,15 @@ class NewTransactionNotifier extends ChangeNotifier {
         data: formData,
       );
 
+      print(response);
+
       if (response.statusCode != 201) {
         return null;
       }
 
       final responseData = response.data;
+
+      print(responseData);
 
       final newTransaction = Transaction.formatFromMap(
         responseData["transaction"],

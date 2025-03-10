@@ -10,10 +10,12 @@ import 'package:daily_expense_tracker/widgets/home_screen/balance_container.dart
 import 'package:daily_expense_tracker/providers/transactions_provider.dart';
 import 'package:daily_expense_tracker/models/transaction.dart';
 
-Widget _chartContainer(double availableWidth) {
+Widget _chartContainer({
+  required double maxWidth,
+}) {
   return Container(
     height: 250,
-    width: availableWidth,
+    width: maxWidth,
     margin: const EdgeInsets.only(top: 25.0),
     padding: const EdgeInsets.symmetric(
       horizontal: 10,
@@ -75,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const BalanceContainer(),
               if (false)
                 _chartContainer(
-                  MediaQuery.of(context).size.width,
+                  maxWidth: MediaQuery.of(context).size.width,
                 ),
               const SizedBox(
                 height: 25,
