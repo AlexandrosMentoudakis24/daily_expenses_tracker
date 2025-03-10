@@ -29,16 +29,6 @@ class TransactionsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteSingleTransaction(String transactionId) {
-    existingTransactions = [
-      ...existingTransactions.where(
-        (t) => t.transactionId != transactionId,
-      ),
-    ];
-
-    notifyListeners();
-  }
-
   Future<void> fetchAllTransactions() async {
     final dio = Dio();
 
@@ -68,9 +58,40 @@ class TransactionsNotifier extends ChangeNotifier {
 
       notifyListeners();
     } catch (err) {
-      print(err);
-
       throw "Failed to fetch data!";
+    }
+  }
+
+  Future<bool> deleteSingleTransaction({
+    required String transactionId,
+  }) async {
+    final dio = Dio();
+
+    try {
+      final response = await dio.delete(
+        "${WebServer.serverUri}/transactions/deleteTransaction/$transactionId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+          },
+        ),
+      );
+
+      if (response.statusCode != 200) {
+        throw Error();
+      }
+
+      existingTransactions = [
+        ...existingTransactions.where(
+          (t) => t.transactionId != transactionId,
+        ),
+      ];
+
+      notifyListeners();
+
+      return true;
+    } catch (err) {
+      return false;
     }
   }
 }

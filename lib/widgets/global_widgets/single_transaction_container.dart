@@ -29,6 +29,24 @@ class SingleTransactionContainer extends ConsumerWidget {
     return choise;
   }
 
+  Future<bool> deleteTransaction({
+    required WidgetRef ref,
+  }) async {
+    try {
+      final isDeleteComplete = await ref
+          .read(
+            transactionsProvider.notifier,
+          )
+          .deleteSingleTransaction(
+            transactionId: transaction.transactionId,
+          );
+
+      return isDeleteComplete;
+    } catch (err) {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isExpense = transaction.transactionType == TransactionType.expense;
@@ -47,15 +65,11 @@ class SingleTransactionContainer extends ConsumerWidget {
 
         if (choise == null || choise == Answer.cancel) return false;
 
-        ref
-            .read(
-              transactionsProvider.notifier,
-            )
-            .deleteSingleTransaction(
-              transaction.transactionId,
-            );
+        final isTransactionDeleted = await deleteTransaction(
+          ref: ref,
+        );
 
-        return true;
+        return isTransactionDeleted;
       },
       direction: DismissDirection.endToStart,
       background: Padding(
